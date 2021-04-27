@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Library_Management_System.Data.Model
+{
+    public class Book
+    {
+        public int BookId { get; set; }
+        public String BookName { get; set; }
+        public virtual Author Author { get; set; }
+        public int AuthorId { get; set; }
+
+        public virtual Customer Borrower { get; set; }
+        public int BorrowerId { get; set; }
+
+
+
+    }
+}
