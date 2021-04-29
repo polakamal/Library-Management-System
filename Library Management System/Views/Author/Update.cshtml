@@ -1,0 +1,28 @@
+﻿@using Library_Management_System.Data.Model;
+@model Author
+
+<h3 class="col-md-offset-2">Edit Author @Model.Name</h3>
+<form method="post" asp-action="Update">
+    <div class="p-4 border rounded">
+        <input type="hidden" asp-for="AuthorId" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Name"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Update" />
+            <a asp-controller="Author" asp-action="List" class="btn btn-success">Back To List</a>
+        </div>
+    </div>
+
+</form>
+@section scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

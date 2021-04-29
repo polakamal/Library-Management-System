@@ -7,7 +7,7 @@ using Library_Management_System.Data.Model;
 
 namespace Library_Management_System.Data.Interfaces
 {
-    interface IAuthorRepository : IRepository<Author>
+    public interface IAuthorRepository : IRepository<Author>
     {
         IEnumerable<Author> GetAllWithBooks();
         Author GetWithBooks(int id);
