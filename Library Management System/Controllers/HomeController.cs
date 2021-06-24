@@ -1,4 +1,6 @@
-﻿using Library_Management_System.Models;
+﻿using Library_Management_System.Data.Interfaces;
+using Library_Management_System.Models;
+using Library_Management_System.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,16 +13,28 @@ namespace Library_Management_System.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IBookRepository _bookRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly ICustomerRepository _customerRepository;
+        public HomeController(IBookRepository bookRepository,ICustomerRepository customerRepository,IAuthorRepository authorRepository)
         {
-            _logger = logger;
+            _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+            _customerRepository = customerRepository;
+
         }
 
         public IActionResult Index()
         {
-            return View();
+            var homeVM = new HomeViewModel()
+            {
+                AuthorCount = _authorRepository.Count(x => true),
+                CustomerCount = _customerRepository.Count(x => true),
+                BookCount = _bookRepository.Count(x => true),
+                LendBookCount = _bookRepository.Count(x => x.Borrower != null)
+            };
+            // call view
+            return View(homeVM);
         }
 
         public IActionResult Privacy()

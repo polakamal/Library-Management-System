@@ -1,0 +1,39 @@
+﻿@using Library_Management_System.ViewModels
+@model BookViewModel
+
+    <div class="p-4 border rounded">
+
+        <form asp-controller="Book" asp-action="Create" method="post" class="form-horizontal" role="form">
+            <h3 class="col-2">Create new book</h3>
+            <div class="form-group">
+                <label asp-for="Book.Author" class="col-2">
+                </label>
+                <div class="col-4">
+                    @Html.DropDownListFor(m => m.Book.AuthorId,
+                                      new SelectList(Model.Authors.Select(x => new { Value = x.AuthorId, Text = x.Name }), "Value", "Text"), "Select an author",
+                                      htmlAttributes: new { @class = "form-control border-input" })
+                    <span asp-validation-for="Book.Author" class="text-danger"></span>
+
+
+                </div>
+                <div class="col-2" >
+                    <a class="btn btn-success" style="width:100%" asp-controller="Author" asp-action="Create">Create an author</a>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Title" class="col-2"></label>
+                <div class="col-6">
+                    <input asp-for="Book.Title" class="form-control" placeholder="Enter book title" />
+                    <span asp-validation-for="Book.Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group">
+                    <input class="btn btn-primary" type="submit" value="Return" asp-controller="Book" asp-action="List" />
+                    <input class="btn btn-success" type="submit" value="Create" />
+                </div>
+            </div>
+
+        </form>
+    </div>

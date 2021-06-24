@@ -58,13 +58,17 @@ namespace Library_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Customer customer)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(customer);
+            }
             _customerRepository.Create(customer);
             
            return RedirectToAction("List");
 
         }
-        public IActionResult Update(int id)
-        {
+        public IActionResult Update(int id) { 
+        
             var customer = _customerRepository.GetById(id);
             return View(customer);
         }
@@ -72,6 +76,10 @@ namespace Library_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(Customer customer)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(customer);
+            }
             _customerRepository.Update(customer);
 
             return RedirectToAction("List");
