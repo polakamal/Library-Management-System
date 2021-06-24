@@ -5,12 +5,12 @@ and used concepts like pipeline, routing, services and simple CRUD in applicatio
 i created library panel system that aim to help librarian to create CRUD opertaions and lend and return books to customers with very easy application to use. 
 
 ## Used technologies
-MVC
-Repository pattern
-Inversion of control and Depency injection
+MVC<br>
+Repository pattern<br>
+Inversion of control and Depency injection<br>
 
 
 ## Used patterns
-ASP.NET Core 3.1
-Razor views
-Entity Framework
+ASP.NET Core 3.1<br>
+Razor views<br>
+Entity Framework<br>
