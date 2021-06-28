@@ -9,7 +9,7 @@ namespace Library_Management_System.Data.Interfaces
 {
     public interface IAuthorRepository : IRepository<Author>
     {
-        IEnumerable<Author> GetAllWithBooks();
-        Author GetWithBooks(int id);
+        Task<IEnumerable<Author>> GetAllWithBooks();
+        Task<Author> GetWithBooks(int id);
     }
 }

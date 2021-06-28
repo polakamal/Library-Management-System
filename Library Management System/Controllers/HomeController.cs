@@ -24,14 +24,14 @@ namespace Library_Management_System.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var homeVM = new HomeViewModel()
             {
-                AuthorCount = _authorRepository.Count(x => true),
-                CustomerCount = _customerRepository.Count(x => true),
-                BookCount = _bookRepository.Count(x => true),
-                LendBookCount = _bookRepository.Count(x => x.Borrower != null)
+                AuthorCount = await _authorRepository.Count(x => true),
+                CustomerCount = await _customerRepository.Count(x => true),
+                BookCount = await _bookRepository.Count(x => true),
+                LendBookCount = await _bookRepository.Count(x => x.Borrower != null)
             };
             // call view
             return View(homeVM);

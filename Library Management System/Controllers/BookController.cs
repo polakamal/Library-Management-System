@@ -20,18 +20,18 @@ namespace Library_Management_System.Controllers
             _authorRepository = authorRepository;
         }
         [Route("Book")]
-        public IActionResult List(int? authorId, int? borrowerId)
+        public async Task<IActionResult> List(int? authorId, int? borrowerId)
         {
 
             if (authorId == null && borrowerId == null)
             {
-                var books = _bookRepository.GetAllWithAuthor();
+                var books = await _bookRepository.GetAllWithAuthor();
                 return CheckBooks(books);
 
             }
             else if (authorId != null)
             {
-                var author = _authorRepository.GetWithBooks((int)authorId);
+                var author = await _authorRepository.GetWithBooks((int)authorId);
 
                 if (author.Books.Count() == 0)
                 {
@@ -46,7 +46,7 @@ namespace Library_Management_System.Controllers
         
         else if (borrowerId != null)
             {
-                var books = _bookRepository.FindWithAuthorAndBorrower(book=>book.BorrowerId==borrowerId);
+                var books = await _bookRepository.FindWithAuthorAndBorrower(book=>book.BorrowerId==borrowerId);
                 return CheckBooks(books);
             }
         else 
@@ -75,12 +75,12 @@ namespace Library_Management_System.Controllers
 
         }
 
-        public IActionResult Create() 
+        public async Task<IActionResult> Create() 
         {
             var BookVM = new BookViewModel()
             {
 
-                Authors = _authorRepository.GetAll(),
+                Authors = await _authorRepository.GetAll(),
 
             
             };
@@ -88,26 +88,26 @@ namespace Library_Management_System.Controllers
         
         }
         [HttpPost]
-        public IActionResult Create(BookViewModel bookViewModel) 
+        public async Task<IActionResult> Create(BookViewModel bookViewModel) 
         {
 
             if (!ModelState.IsValid)
             {
-                bookViewModel.Authors = _authorRepository.GetAll();
+                bookViewModel.Authors = await _authorRepository.GetAll();
                 return View(bookViewModel);
             }
 
-            _bookRepository.Create(bookViewModel.Book);
+            await _bookRepository.Create(bookViewModel.Book);
            return  RedirectToAction("List");
             
         }
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var BookVM = new BookViewModel()
             {  
 
-                Book =_bookRepository.GetById(id),
-                Authors = _authorRepository.GetAll()
+                Book =    await _bookRepository.GetById(id),
+                Authors = await _authorRepository.GetAll()
 
 
             };
@@ -115,23 +115,23 @@ namespace Library_Management_System.Controllers
 
         }
         [HttpPost]
-        public IActionResult Update(BookViewModel bookViewModel)
+        public  async Task<IActionResult> Update(BookViewModel bookViewModel)
         {
             if (!ModelState.IsValid)
             {
-                bookViewModel.Authors = _authorRepository.GetAll();
+                bookViewModel.Authors = await _authorRepository.GetAll();
                 return View(bookViewModel);
             }
  
-            _bookRepository.Update(bookViewModel.Book);
+            await _bookRepository.Update(bookViewModel.Book);
             return RedirectToAction("List");
 
         }
-        public IActionResult Delete(int id) 
+        public async Task<IActionResult> Delete(int id) 
         {
-            var book = _bookRepository.GetById(id);
+            var book = await _bookRepository.GetById(id);
 
-            _bookRepository.Delete(book);
+            await _bookRepository.Delete(book);
 
             return RedirectToAction("List");
 

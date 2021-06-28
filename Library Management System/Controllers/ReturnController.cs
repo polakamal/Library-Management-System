@@ -24,21 +24,21 @@ namespace Library_Management_System.Controllers
             _customerRepository = customerRepository;
         }
         [Route("Return")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var borrowedBooks = _bookRepository.FindWithAuthorAndBorrower(x=>x.BorrowerId !=0);
+            var borrowedBooks = await _bookRepository.FindWithAuthorAndBorrower(x=>x.BorrowerId !=0);
             if (borrowedBooks == null || borrowedBooks.ToList().Count() == 0)
             {
                 return View("Empty");
             }
             return View(borrowedBooks);
         }
-        public IActionResult ReturnABook(int bookId) 
+        public async Task<IActionResult> ReturnABook(int bookId) 
         {
-            var book = _bookRepository.GetById(bookId);
+            var book = await _bookRepository.GetById(bookId);
             book.Borrower = null;
             book.BorrowerId = 0;
-            _bookRepository.Update(book);
+            await _bookRepository.Update(book);
             return RedirectToAction("List");
         }
 

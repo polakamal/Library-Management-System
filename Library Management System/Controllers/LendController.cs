@@ -19,9 +19,9 @@ namespace Library_Management_System.Controllers
             _customerRepository = customerRepository;
         }
         [Route("Lend")]
-        public IActionResult List() 
+        public async Task<IActionResult> List() 
         {
-            var availablebooks = _bookRepository.FindWithAuthor(x=>x.BorrowerId==0);
+            var availablebooks = await _bookRepository.FindWithAuthor(x=>x.BorrowerId==0);
             if (availablebooks.Count() == 0) 
             {
                 return View("Empty");
@@ -36,24 +36,24 @@ namespace Library_Management_System.Controllers
         }
        
 
-        public IActionResult LendBook(int BookId) 
+        public async Task<IActionResult> LendBook(int BookId) 
         {
             var LendVM = new LendViewModel() 
             {
-            Book = _bookRepository.GetById(BookId),
-            customers= _customerRepository.GetAll()
+            Book = await _bookRepository.GetById(BookId),
+            customers= await _customerRepository.GetAll()
             
             
             };
             return View(LendVM);
         }
         [HttpPost]
-        public IActionResult LendBook(LendViewModel lendViewModel) 
+        public async Task<IActionResult> LendBook(LendViewModel lendViewModel) 
         {
-            var book = _bookRepository.GetById(lendViewModel.Book.BookId);
-            var customer = _customerRepository.GetById(lendViewModel.Book.BorrowerId);
+            var book =  await _bookRepository.GetById(lendViewModel.Book.BookId);
+            var customer = await _customerRepository.GetById(lendViewModel.Book.BorrowerId);
             book.Borrower = customer;
-            _bookRepository.Update(book);
+           await _bookRepository.Update(book);
             return RedirectToAction("List");
         }
     }

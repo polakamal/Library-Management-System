@@ -17,12 +17,12 @@ namespace Library_Management_System.Data.Repository
         public IEnumerable<Author> GetAllWithBooks()
         {
             return _context.Authors.Include(a => a.Books);
-            
+
         }
 
-        public Author GetWithBooks(int id)
+        public  Author GetWithBooks(int id)
         {
-            return _context.Authors.Where(a => a.AuthorId == id).FirstOrDefault();
+            return   _context.Authors.Where(a => a.AuthorId == id).FirstOrDefault();
         }
     }
 }

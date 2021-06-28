@@ -21,10 +21,10 @@ namespace Library_Management_System.Controllers
             _bookRepository = bookRepository;
         }
         [Route("Customer")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
             var customerVM = new List<CustomerViewModel>();
-            var customers = _customerRepository.GetAll();
+            var customers =  await _customerRepository.GetAll();
             if (customers.Count() == 0)
             {
                 return View("Empty");
@@ -35,16 +35,16 @@ namespace Library_Management_System.Controllers
                 customerVM.Add(new CustomerViewModel
                 {
                     Customer = customer,
-                    BookCount = _bookRepository.Count(x=>x.BorrowerId==customer.CustomerId)
+                    BookCount = await _bookRepository.Count(x=>x.BorrowerId==customer.CustomerId)
                 }
                 );
             }
             return View(customerVM);
         }
-        public IActionResult Delete(int id) 
+        public async Task<IActionResult> Delete(int id) 
         {
-            var customer = _customerRepository.GetById(id);
-            _customerRepository.Delete(customer);
+            var customer = await _customerRepository.GetById(id);
+            await _customerRepository.Delete(customer);
             return RedirectToAction("List");
         
         }

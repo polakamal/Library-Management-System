@@ -18,9 +18,9 @@ namespace Library_Management_System.Controllers
             _authorRepository = authorRepository;
         }
         [Route("Author")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var authors = _authorRepository.GetAllWithBooks();
+            var authors = await _authorRepository.GetAllWithBooks();
             if (authors.Count() == 0) 
             {
 
@@ -77,10 +77,10 @@ namespace Library_Management_System.Controllers
 
 
         }
-        public IActionResult Delete(int id) 
+        public async Task<IActionResult> Delete(int id) 
         {
-            var author = _authorRepository.GetById(id);
-            _authorRepository.Delete(author);
+            var author = await _authorRepository.GetById(id);
+            await _authorRepository.Delete(author);
             return RedirectToAction("List");
         }
 

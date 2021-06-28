@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Library_Management_System.Data.Repository
@@ -14,19 +15,19 @@ namespace Library_Management_System.Data.Repository
         {
         }
 
-        public IEnumerable<Book> FindWithAuthor(Func<Book, bool> predicate)
+        public async Task<IEnumerable<Book>> FindWithAuthor(Expression<Func<Book, bool>> predicate)
         {
-            return _context.Books.Include(a=>a.Author).Where(predicate);
+            return await  _context.Books.Include(a=>a.Author).Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<Book> FindWithAuthorAndBorrower(Func<Book, bool> predicate)
+        public async Task<IEnumerable<Book>> FindWithAuthorAndBorrower(Expression<Func<Book, bool>> predicate)
         {
-            return _context.Books.Include(a => a.Author).Include(b => b.Borrower).Where(predicate);
+            return await _context.Books.Include(a => a.Author).Include(b => b.Borrower).Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<Book> GetAllWithAuthor()
+        public  async Task<IEnumerable<Book>> GetAllWithAuthor()
         {
-            return _context.Books.Include(a => a.Author);
+            return await  _context.Books.Include(a => a.Author).ToListAsync();
 
         }
     }

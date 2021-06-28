@@ -30,9 +30,10 @@ namespace Library_Management_System
         {
             services.AddDbContext<LibraryDbContext>(options => options.UseInMemoryDatabase("LibraryManagement"));
             services.AddControllersWithViews();
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
 
         }
 
